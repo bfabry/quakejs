@@ -4,7 +4,7 @@ var fs = require('fs');
 var logger = require('winston');
 var path = require('path');
 var exec = require('child_process').exec;
-var execSync = require('execSync').exec;
+var execSync = require('child_process').execSync;
 var os = require('os');
 var temp = require('temp');
 var wrench = require('wrench');
@@ -345,31 +345,31 @@ getGames(src).forEach(function (game) {
 var tasks = [];
 
 // do each mod first
-var modVerts = graph.getMods();
+//var modVerts = graph.getMods();
 
-modVerts.forEach(function (modV) {
-	var mapVerts = graph.getMaps(modV);
+//modVerts.forEach(function (modV) {
+	//var mapVerts = graph.getMaps(modV);
 
-	// write out paks for each map
-	mapVerts.forEach(function (mapV) {
-		var assetVerts = graph.getMapAssets(mapV);
-		var fileMap = vertsToFileMap(assetVerts);
-		var pakName = path.resolve(path.join(dest, modV.id, mapV.data.basename + '.pk3'));
+	//// write out paks for each map
+	//mapVerts.forEach(function (mapV) {
+		//var assetVerts = graph.getMapAssets(mapV);
+		//var fileMap = vertsToFileMap(assetVerts);
+		//var pakName = path.resolve(path.join(dest, modV.id, mapV.data.basename + '.pk3'));
 
-		tasks.push(function (cb) {
-			writePak(pakName, fileMap, cb);
-		});
-	});
+		//tasks.push(function (cb) {
+			//writePak(pakName, fileMap, cb);
+		//});
+	//});
 
-	// write out paks for common assets
-	var assetVerts = graph.getCommonAssets(modV);
-	var fileMap = vertsToFileMap(assetVerts);
-	var pakName = path.resolve(path.join(dest, modV.id, 'pak.pk3'));
+	//// write out paks for common assets
+	//var assetVerts = graph.getCommonAssets(modV);
+	//var fileMap = vertsToFileMap(assetVerts);
+	//var pakName = path.resolve(path.join(dest, modV.id, 'pak.pk3'));
 
-	tasks.push(function (cb) {
-		writePak(pakName, fileMap, commonPakMaxSize, cb);
-	});
-});
+	//tasks.push(function (cb) {
+		//writePak(pakName, fileMap, commonPakMaxSize, cb);
+	//});
+//});
 
 // then the base game
 var mapVerts = graph.getMaps(graph.baseGameV);
